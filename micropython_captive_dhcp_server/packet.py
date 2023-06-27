@@ -15,6 +15,7 @@ class DhcpOptions:
     RENEWAL_T1 = 58
     RENEWAL_T2 = 59
     VENDOR_CLASS_ID = 60
+    CAPTIVE_URI = 114
 
 class DhcpMessageType:
     DISCOVER = 1
@@ -102,7 +103,7 @@ class Header:
         self.chaddr2: int = 0 # 4 octets. Client hardware
         self.chaddr3: int = 0 # 4 octets. Client hardware
         self.chaddr4: int = 0 # 4 octets. Client hardware
-        self.magic: int = 0 # 4 octets. magic cookie 0x63825363
+        self.magic: int = 0x63825363 # 4 octets. magic cookie 0x63825363
         self.options: dict = {} # variable options
 
     def unpack(self, data):
@@ -143,7 +144,8 @@ class Header:
             if (option_code in [
                 DhcpOptions.HOST_NAME, 
                 DhcpOptions.DOMAIN_NAME,
-                DhcpOptions.VENDOR_CLASS_ID
+                DhcpOptions.VENDOR_CLASS_ID,
+                DhcpOptions.CAPTIVE_URI
             ]):
                 option_value = data[position:position+option_len].decode("utf-8")
             elif (option_code in [DhcpOptions.PARAM_REQUEST_LIST]):
@@ -183,7 +185,8 @@ class Header:
             if (option_code in [
                 DhcpOptions.HOST_NAME, 
                 DhcpOptions.DOMAIN_NAME,
-                DhcpOptions.VENDOR_CLASS_ID
+                DhcpOptions.VENDOR_CLASS_ID,
+                DhcpOptions.CAPTIVE_URI
             ]):
                 packet += int.to_bytes(len(option_value), 1, self.BYTE_ORDER)
                 packet += bytes(option_value, "utf-8")
@@ -192,6 +195,20 @@ class Header:
                 packet += int.to_bytes(len(param_request_list), 1, self.BYTE_ORDER)
                 for param_request in param_request_list:
                     packet += int.to_bytes(int(param_request), 1, self.BYTE_ORDER)
+            elif (option_code in [
+                DhcpOptions.LEASE_TIME,
+                DhcpOptions.RENEWAL_T1, 
+                DhcpOptions.RENEWAL_T2
+            ]):
+                octet_size = 4
+                packet += int.to_bytes(octet_size, 1, self.BYTE_ORDER)
+                packet += int.to_bytes(option_value, octet_size, self.BYTE_ORDER)
+            elif (option_code in [
+                DhcpOptions.MAX_MESSAGE_SIZE
+            ]):
+                octet_size = 2
+                packet += int.to_bytes(octet_size, 1, self.BYTE_ORDER)
+                packet += int.to_bytes(option_value, octet_size, self.BYTE_ORDER)
             else:
                 try:
                     octet_size = (int(option_value).bit_length() + 7) // 8
@@ -289,12 +306,12 @@ class DhcpOffer:
             self.header.hlen = 6
             self.header.options[DhcpOptions.DHCP_MESSAGE_TYPE] = DhcpMessageType.OFFER
 
-    def answer(self, discover: DhcpDiscover, clientIp: str, serverIp: str, netmask: str):
+    def answer(self, discover: DhcpDiscover, client_ip: str, server_ip: str, netmask: str):
         self.header.answer(discover.header)
 
-        self.header.yiaddr = Ip.str_to_int(clientIp)
+        self.header.yiaddr = Ip.str_to_int(client_ip)
 
-        sIp = Ip.str_to_int(serverIp)
+        sIp = Ip.str_to_int(server_ip)
         self.header.siaddr = sIp
         self.header.options[DhcpOptions.ROUTER] = sIp
         self.header.options[DhcpOptions.DHCP_SERVER] = sIp
@@ -357,12 +374,12 @@ class DhcpAck:
             self.header.hlen = 6
             self.header.options[DhcpOptions.DHCP_MESSAGE_TYPE] = DhcpMessageType.ACK
 
-    def answer(self, discover: DhcpDiscover, clientIp: str, serverIp: str, netmask: str):
-        self.header.answer(discover.header)
+    def answer(self, request: DhcpRequest, server_ip: str, netmask: str):
+        self.header.answer(request.header)
 
-        self.header.yiaddr = Ip.str_to_int(clientIp)
+        self.header.yiaddr = request.header.options[DhcpOptions.REQUESTED_IP]
 
-        sIp = Ip.str_to_int(serverIp)
+        sIp = Ip.str_to_int(server_ip)
         self.header.siaddr = sIp
         self.header.options[DhcpOptions.ROUTER] = sIp
         self.header.options[DhcpOptions.DHCP_SERVER] = sIp
@@ -370,6 +387,8 @@ class DhcpAck:
 
         self.header.options[DhcpOptions.SUBNET] = Ip.str_to_int(netmask)
         self.header.options[DhcpOptions.LEASE_TIME] = 86400 # least time
+
+        self.header.options[DhcpOptions.CAPTIVE_URI] = 'http://' + server_ip
 
         return self.pack()
 

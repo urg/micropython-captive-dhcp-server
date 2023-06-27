@@ -176,7 +176,7 @@ class TestHeader(unittest.TestCase):
         self.assertEqual(header.options[DhcpOptions.HOST_NAME], 'Galaxy-S9') 
         self.assertEqual(header.options[DhcpOptions.PARAM_REQUEST_LIST], '1,3,6,15,26,28,51,58,59,43') 
 
-        self.assertEqual(header.pack(),self.discover_android)
+        self.assertEqual(header.pack(), self.discover_android)
 
     def test_discover(self):
         packet = Header.parse(self.discover_linux)
@@ -196,9 +196,11 @@ class TestHeader(unittest.TestCase):
         self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], 'mario') 
         self.assertEqual(packet.header.options[DhcpOptions.PARAM_REQUEST_LIST], '1,28,2,3,15,6,119,12,44,47,26,121,42')
 
+        self.assertEqual(packet.pack(), self.discover_linux)
+
     def test_offer(self):
         packet = Header.parse(self.offer_linux)
-        #print(packet)
+        print(packet)
 
         self.assertEqual(packet.header.op, 2)
         self.assertEqual(packet.header.htype, 1)
@@ -215,11 +217,14 @@ class TestHeader(unittest.TestCase):
         self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.SUBNET]), '255.255.255.0') 
         self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.ROUTER]), '10.151.1.1') 
         self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.DNS]), '10.104.1.8') 
+        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.DHCP_SERVER]), '192.168.56.2') 
         self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], 'mario.com')
         self.assertEqual(packet.header.options[DhcpOptions.DOMAIN_NAME], 'sweetwater.com')
         self.assertEqual(packet.header.options[DhcpOptions.LEASE_TIME], 86400)
         self.assertEqual(packet.header.options[DhcpOptions.RENEWAL_T1], 21600)
         self.assertEqual(packet.header.options[DhcpOptions.RENEWAL_T2], 43200)
+
+        self.assertEqual(packet.pack(), self.offer_linux)
 
     def test_offer_answer(self):
         discover = Header.parse(self.discover_linux)
@@ -261,9 +266,11 @@ class TestHeader(unittest.TestCase):
         self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], 'mario')
         self.assertEqual(packet.header.options[DhcpOptions.PARAM_REQUEST_LIST], '1,28,2,3,15,6,119,12,44,47,26,121,42')
 
+        self.assertEqual(packet.pack(), self.request_linux)
+
     def test_ack(self):
         packet = Header.parse(self.ack_linux)
-        print(packet)
+        #print(packet)
 
         self.assertEqual(packet.header.op, 2)
         self.assertEqual(packet.header.htype, 1)
@@ -286,6 +293,8 @@ class TestHeader(unittest.TestCase):
         self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.DHCP_SERVER]), '192.168.56.2') 
         self.assertEqual(packet.header.options[DhcpOptions.RENEWAL_T1], 21600)
         self.assertEqual(packet.header.options[DhcpOptions.RENEWAL_T2], 43200)
+
+        self.assertEqual(packet.pack(), self.ack_linux)
 
     def test_ip(self):
         self.assertEqual('192.168.1.5', Ip.next_ip('192.168.1.4'))
