@@ -1,12 +1,20 @@
 version: '3'
 services:
-  dnsserver:
+  dhcpserver:
     build: 
       context: .
       dockerfile: Dockerfile
     ports:
       - "0.0.0.0:67:67/udp"
     volumes:
-      - ./micropython_captive_dhcp_server:/code
+      - ./micropython_captive_dhcp_server:/code/micropython_captive_dhcp_server
     working_dir: "/code"
     #entrypoint: ["tail", "-f", "/dev/null"]
+  busybox:
+    image: busybox
+    ports:
+      - "0.0.0.0:68:68/udp"
+    entrypoint: ["tail", "-f", "/dev/null"]
+  busybox2:
+    image: busybox
+    entrypoint: ["tail", "-f", "/dev/null"]
