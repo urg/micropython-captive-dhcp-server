@@ -1,12 +1,21 @@
 import usocket as socket
 import uasyncio as asyncio
+
 try:
-  from micropython_captive_dhcp_server.packet import Header, DhcpDiscover, DhcpRequest, DhcpOffer, DhcpAck, Ip
+    from micropython_captive_dhcp_server.packet import (
+        Header,
+        DhcpDiscover,
+        DhcpRequest,
+        DhcpOffer,
+        DhcpAck,
+        Ip,
+    )
 except:
-  from packet import Header, DhcpDiscover, DhcpRequest, DhcpOffer, DhcpAck, Ip
+    from packet import Header, DhcpDiscover, DhcpRequest, DhcpOffer, DhcpAck, Ip
 import gc
 import time
 import traceback
+
 
 class CaptiveDhcpServer:
     def __init__(self):
@@ -23,16 +32,15 @@ class CaptiveDhcpServer:
 
         return next_ip
 
-
     def send_broadcast_reply(self, reply):
         udpb = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         udpb.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         udpb.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         udpb.setblocking(False)
         broadcast_addr = socket.getaddrinfo(
-            '255.255.255.255', 68, socket.AF_INET, socket.SOCK_DGRAM
+            "255.255.255.255", 68, socket.AF_INET, socket.SOCK_DGRAM
         )[0][4]
-        print (f'Broadcasting Response ')
+        print(f"Broadcasting Response ")
         print(reply)
         udpb.sendto(reply, broadcast_addr)
         udpb.close()
@@ -46,9 +54,9 @@ class CaptiveDhcpServer:
             # async threads from running
             udps.setblocking(False)
 
-            addr = socket.getaddrinfo(
-                "0.0.0.0", 67, socket.AF_INET, socket.SOCK_DGRAM
-            )[0][4]
+            addr = socket.getaddrinfo("0.0.0.0", 67, socket.AF_INET, socket.SOCK_DGRAM)[
+                0
+            ][4]
             udps.bind(addr)
             print("Starting server on port 67")
         except Exception:
@@ -67,17 +75,17 @@ class CaptiveDhcpServer:
                 print(request)
 
                 if isinstance(request, DhcpDiscover):
-                    print('Creating Offer for Discover')
+                    print("Creating Offer for Discover")
                     response = DhcpOffer()
                     client_ip = self.get_free_ip(server_ip, request.header.chaddr)
-                    print('Found new ip: ' + client_ip)
+                    print("Found new ip: " + client_ip)
                     reply = response.answer(request, client_ip, server_ip, netmask)
                     print(response)
 
                     self.send_broadcast_reply(reply)
 
                 elif isinstance(request, DhcpRequest):
-                    print('Creating Ack for Request')
+                    print("Creating Ack for Request")
                     response = DhcpAck()
                     reply = response.answer(request, server_ip, netmask)
                     print(response)
@@ -90,7 +98,7 @@ class CaptiveDhcpServer:
                 await asyncio.sleep_ms(500)
 
             except Exception as ex:
-                traceback.print_exc()    
+                traceback.print_exc()
                 await asyncio.sleep_ms(500)
 
         udps.close()

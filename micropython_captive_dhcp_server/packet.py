@@ -1,5 +1,6 @@
 import json
 
+
 class DhcpOptions:
     SUBNET = 1
     ROUTER = 3
@@ -17,11 +18,13 @@ class DhcpOptions:
     VENDOR_CLASS_ID = 60
     CAPTIVE_URI = 114
 
+
 class DhcpMessageType:
     DISCOVER = 1
     OFFER = 2
     REQUEST = 3
     ACK = 5
+
 
 class Ip:
     # Network byte order
@@ -29,7 +32,7 @@ class Ip:
 
     @staticmethod
     def str_to_byte(ip: str):
-        ip_data = ip.split('.')
+        ip_data = ip.split(".")
         b = int.to_bytes(int(ip_data[0]), 1, Ip.BYTE_ORDER)
         b += int.to_bytes(int(ip_data[1]), 1, Ip.BYTE_ORDER)
         b += int.to_bytes(int(ip_data[2]), 1, Ip.BYTE_ORDER)
@@ -44,12 +47,12 @@ class Ip:
     @staticmethod
     def int_to_str(i):
         if i == 0:
-            return '0.0.0.0'
+            return "0.0.0.0"
         b = int.to_bytes(i, 4, Ip.BYTE_ORDER)
 
-        ip = str(int.from_bytes(b[:1], Ip.BYTE_ORDER)) + '.'
-        ip += str(int.from_bytes(b[1:2], Ip.BYTE_ORDER)) + '.'
-        ip += str(int.from_bytes(b[2:3], Ip.BYTE_ORDER)) + '.'
+        ip = str(int.from_bytes(b[:1], Ip.BYTE_ORDER)) + "."
+        ip += str(int.from_bytes(b[1:2], Ip.BYTE_ORDER)) + "."
+        ip += str(int.from_bytes(b[2:3], Ip.BYTE_ORDER)) + "."
         ip += str(int.from_bytes(b[3:4], Ip.BYTE_ORDER))
         return ip
 
@@ -58,6 +61,7 @@ class Ip:
         int_ip = Ip.str_to_int(ip)
         next_ip = Ip.int_to_str(int_ip + 1)
         return next_ip
+
 
 class Header:
     """
@@ -72,9 +76,9 @@ class Header:
     def parse(data):
         header = Header()
         header.unpack(data)
-        
+
         if DhcpOptions.DHCP_MESSAGE_TYPE not in header.options:
-            print('Unknown header. Missing message type.')
+            print("Unknown header. Missing message type.")
         elif header.options[DhcpOptions.DHCP_MESSAGE_TYPE] == DhcpMessageType.DISCOVER:
             return DhcpDiscover(header)
         elif header.options[DhcpOptions.DHCP_MESSAGE_TYPE] == DhcpMessageType.OFFER:
@@ -84,27 +88,27 @@ class Header:
         elif header.options[DhcpOptions.DHCP_MESSAGE_TYPE] == DhcpMessageType.ACK:
             return DhcpAck(header)
         else:
-            print('Unknown header: ' + header.options[DhcpOptions.DHCP_MESSAGE_TYPE])
+            print("Unknown header: " + header.options[DhcpOptions.DHCP_MESSAGE_TYPE])
 
     def __init__(self):
-        self.op: int = 0 # 1 octet. Operation Type
-        self.htype: int = 0 # 1 octet 
-        self.hlen: int = 0 # 1 octet
+        self.op: int = 0  # 1 octet. Operation Type
+        self.htype: int = 0  # 1 octet
+        self.hlen: int = 0  # 1 octet
         self.hops: int = 0  # 1 octet
-        self.xid: int = 0 # 4 octets
+        self.xid: int = 0  # 4 octets
         self.secs: int = 0  # 2 octets
         self.flags: int = 0  # 2 octets
         self.ciaddr: int = 0  # 4 octets. Client IP
-        self.yiaddr: int = 0 # 4 octets. Your Ip
-        self.siaddr: int = 0 # 4 octets. Server Ip
-        self.giaddr: int = 0 # 4 octets. Gateway Ip
+        self.yiaddr: int = 0  # 4 octets. Your Ip
+        self.siaddr: int = 0  # 4 octets. Server Ip
+        self.giaddr: int = 0  # 4 octets. Gateway Ip
         self.chaddr: str = ""
-        self.chaddr1: int = 0 # 4 octets. Client hardware
-        self.chaddr2: int = 0 # 4 octets. Client hardware
-        self.chaddr3: int = 0 # 4 octets. Client hardware
-        self.chaddr4: int = 0 # 4 octets. Client hardware
-        self.magic: int = 0x63825363 # 4 octets. magic cookie 0x63825363
-        self.options: dict = {} # variable options
+        self.chaddr1: int = 0  # 4 octets. Client hardware
+        self.chaddr2: int = 0  # 4 octets. Client hardware
+        self.chaddr3: int = 0  # 4 octets. Client hardware
+        self.chaddr4: int = 0  # 4 octets. Client hardware
+        self.magic: int = 0x63825363  # 4 octets. magic cookie 0x63825363
+        self.options: dict = {}  # variable options
 
     def unpack(self, data):
         self.op = int.from_bytes(data[:1], self.BYTE_ORDER)
@@ -119,11 +123,21 @@ class Header:
         self.siaddr = int.from_bytes(data[20:24], self.BYTE_ORDER)
         self.giaddr = int.from_bytes(data[24:28], self.BYTE_ORDER)
 
-        self.chaddr = "{:02x}".format(int.from_bytes(data[28:29], self.BYTE_ORDER)) + ':'
-        self.chaddr += "{:02x}".format(int.from_bytes(data[29:30], self.BYTE_ORDER)) + ':'
-        self.chaddr += "{:02x}".format(int.from_bytes(data[30:31], self.BYTE_ORDER)) + ':'
-        self.chaddr += "{:02x}".format(int.from_bytes(data[31:32], self.BYTE_ORDER)) + ':'
-        self.chaddr += "{:02x}".format(int.from_bytes(data[32:33], self.BYTE_ORDER)) + ':'
+        self.chaddr = (
+            "{:02x}".format(int.from_bytes(data[28:29], self.BYTE_ORDER)) + ":"
+        )
+        self.chaddr += (
+            "{:02x}".format(int.from_bytes(data[29:30], self.BYTE_ORDER)) + ":"
+        )
+        self.chaddr += (
+            "{:02x}".format(int.from_bytes(data[30:31], self.BYTE_ORDER)) + ":"
+        )
+        self.chaddr += (
+            "{:02x}".format(int.from_bytes(data[31:32], self.BYTE_ORDER)) + ":"
+        )
+        self.chaddr += (
+            "{:02x}".format(int.from_bytes(data[32:33], self.BYTE_ORDER)) + ":"
+        )
         self.chaddr += "{:02x}".format(int.from_bytes(data[33:34], self.BYTE_ORDER))
 
         self.chaddr1 = int.from_bytes(data[28:32], self.BYTE_ORDER)
@@ -136,29 +150,38 @@ class Header:
         position = 240
         if len(data) < position + 1:
             return
-        option_code = int.from_bytes(data[position:position+1], self.BYTE_ORDER)
+        option_code = int.from_bytes(data[position : position + 1], self.BYTE_ORDER)
         position += 1
         while option_code != 255:
-            option_len = int.from_bytes(data[position:position+1], self.BYTE_ORDER)
+            option_len = int.from_bytes(data[position : position + 1], self.BYTE_ORDER)
             position += 1
-            if (option_code in [
-                DhcpOptions.HOST_NAME, 
+            if option_code in [
+                DhcpOptions.HOST_NAME,
                 DhcpOptions.DOMAIN_NAME,
                 DhcpOptions.VENDOR_CLASS_ID,
-                DhcpOptions.CAPTIVE_URI
-            ]):
-                option_value = data[position:position+option_len].decode("utf-8")
-            elif (option_code in [DhcpOptions.PARAM_REQUEST_LIST]):
-                option_value = ''
+                DhcpOptions.CAPTIVE_URI,
+            ]:
+                option_value = data[position : position + option_len].decode("utf-8")
+            elif option_code in [DhcpOptions.PARAM_REQUEST_LIST]:
+                option_value = ""
                 for i in range(option_len):
-                    option_value += str(int.from_bytes(data[position+i:position+i+1], self.BYTE_ORDER)) + ','
+                    option_value += (
+                        str(
+                            int.from_bytes(
+                                data[position + i : position + i + 1], self.BYTE_ORDER
+                            )
+                        )
+                        + ","
+                    )
                 option_value = option_value[:-1]
             else:
-                option_value = int.from_bytes(data[position:position+option_len], self.BYTE_ORDER)
+                option_value = int.from_bytes(
+                    data[position : position + option_len], self.BYTE_ORDER
+                )
             position += option_len
             self.options[option_code] = option_value
 
-            option_code = int.from_bytes(data[position:position+1], self.BYTE_ORDER)
+            option_code = int.from_bytes(data[position : position + 1], self.BYTE_ORDER)
             position += 1
 
     def pack(self):
@@ -182,30 +205,28 @@ class Header:
         for option_code in self.options:
             option_value = self.options[option_code]
             packet += int.to_bytes(option_code, 1, self.BYTE_ORDER)
-            if (option_code in [
-                DhcpOptions.HOST_NAME, 
+            if option_code in [
+                DhcpOptions.HOST_NAME,
                 DhcpOptions.DOMAIN_NAME,
                 DhcpOptions.VENDOR_CLASS_ID,
-                DhcpOptions.CAPTIVE_URI
-            ]):
+                DhcpOptions.CAPTIVE_URI,
+            ]:
                 packet += int.to_bytes(len(option_value), 1, self.BYTE_ORDER)
                 packet += bytes(option_value, "utf-8")
-            elif (option_code in [DhcpOptions.PARAM_REQUEST_LIST]):
-                param_request_list = option_value.split(',')
+            elif option_code in [DhcpOptions.PARAM_REQUEST_LIST]:
+                param_request_list = option_value.split(",")
                 packet += int.to_bytes(len(param_request_list), 1, self.BYTE_ORDER)
                 for param_request in param_request_list:
                     packet += int.to_bytes(int(param_request), 1, self.BYTE_ORDER)
-            elif (option_code in [
+            elif option_code in [
                 DhcpOptions.LEASE_TIME,
-                DhcpOptions.RENEWAL_T1, 
-                DhcpOptions.RENEWAL_T2
-            ]):
+                DhcpOptions.RENEWAL_T1,
+                DhcpOptions.RENEWAL_T2,
+            ]:
                 octet_size = 4
                 packet += int.to_bytes(octet_size, 1, self.BYTE_ORDER)
                 packet += int.to_bytes(option_value, octet_size, self.BYTE_ORDER)
-            elif (option_code in [
-                DhcpOptions.MAX_MESSAGE_SIZE
-            ]):
+            elif option_code in [DhcpOptions.MAX_MESSAGE_SIZE]:
                 octet_size = 2
                 packet += int.to_bytes(octet_size, 1, self.BYTE_ORDER)
                 packet += int.to_bytes(option_value, octet_size, self.BYTE_ORDER)
@@ -225,15 +246,23 @@ class Header:
     def __str__(self):
         str_options = self.options.copy()
         if DhcpOptions.ROUTER in str_options:
-            str_options[DhcpOptions.ROUTER] = Ip.int_to_str(str_options[DhcpOptions.ROUTER])
+            str_options[DhcpOptions.ROUTER] = Ip.int_to_str(
+                str_options[DhcpOptions.ROUTER]
+            )
         if DhcpOptions.SUBNET in str_options:
-            str_options[DhcpOptions.SUBNET] = Ip.int_to_str(str_options[DhcpOptions.SUBNET])
+            str_options[DhcpOptions.SUBNET] = Ip.int_to_str(
+                str_options[DhcpOptions.SUBNET]
+            )
         if DhcpOptions.DNS in str_options:
             str_options[DhcpOptions.DNS] = Ip.int_to_str(str_options[DhcpOptions.DNS])
         if DhcpOptions.DHCP_SERVER in str_options:
-            str_options[DhcpOptions.DHCP_SERVER] = Ip.int_to_str(str_options[DhcpOptions.DHCP_SERVER])
+            str_options[DhcpOptions.DHCP_SERVER] = Ip.int_to_str(
+                str_options[DhcpOptions.DHCP_SERVER]
+            )
         if DhcpOptions.REQUESTED_IP in str_options:
-            str_options[DhcpOptions.REQUESTED_IP] = Ip.int_to_str(str_options[DhcpOptions.REQUESTED_IP])
+            str_options[DhcpOptions.REQUESTED_IP] = Ip.int_to_str(
+                str_options[DhcpOptions.REQUESTED_IP]
+            )
 
         return json.dumps(
             {
@@ -254,7 +283,7 @@ class Header:
                 "chaddr3": self.chaddr3,
                 "chaddr4": self.chaddr4,
                 "magic": hex(self.magic),
-                "options": str_options
+                "options": str_options,
             }
         )
 
@@ -265,20 +294,23 @@ class Header:
         self.chaddr3 = header.chaddr3
         self.chaddr4 = header.chaddr4
 
+
 class DhcpDiscover:
     """
     This class models a DHCP Discover Packet
     """
 
     def __init__(self, header: Header = None):
-        if (header):
+        if header:
             self.header = header
         else:
             self.header: Header = Header()
             self.header.op = 1
             self.header.htype = 1
             self.header.hlen = 6
-            self.header.options[DhcpOptions.DHCP_MESSAGE_TYPE] = DhcpMessageType.DISCOVER
+            self.header.options[
+                DhcpOptions.DHCP_MESSAGE_TYPE
+            ] = DhcpMessageType.DISCOVER
 
     def unpack(self, packet):
         self.header.unpack(packet)
@@ -287,9 +319,10 @@ class DhcpDiscover:
         packet = self.header.pack()
 
         return packet
-    
+
     def __str__(self):
         return "DhcpDiscover: " + str(self.header)
+
 
 class DhcpOffer:
     """
@@ -297,7 +330,7 @@ class DhcpOffer:
     """
 
     def __init__(self, header: Header = None):
-        if (header):
+        if header:
             self.header = header
         else:
             self.header: Header = Header()
@@ -306,7 +339,9 @@ class DhcpOffer:
             self.header.hlen = 6
             self.header.options[DhcpOptions.DHCP_MESSAGE_TYPE] = DhcpMessageType.OFFER
 
-    def answer(self, discover: DhcpDiscover, client_ip: str, server_ip: str, netmask: str):
+    def answer(
+        self, discover: DhcpDiscover, client_ip: str, server_ip: str, netmask: str
+    ):
         self.header.answer(discover.header)
 
         self.header.yiaddr = Ip.str_to_int(client_ip)
@@ -318,7 +353,7 @@ class DhcpOffer:
         self.header.options[DhcpOptions.DNS] = sIp
 
         self.header.options[DhcpOptions.SUBNET] = Ip.str_to_int(netmask)
-        self.header.options[DhcpOptions.LEASE_TIME] = 86400 # 1 day
+        self.header.options[DhcpOptions.LEASE_TIME] = 86400  # 1 day
 
         return self.pack()
 
@@ -333,13 +368,14 @@ class DhcpOffer:
     def __str__(self):
         return "DhcpOffer: " + str(self.header)
 
+
 class DhcpRequest:
     """
     This class models a DHCP Request Packet
     """
 
     def __init__(self, header: Header = None):
-        if (header):
+        if header:
             self.header = header
         else:
             self.header: Header = Header()
@@ -359,13 +395,14 @@ class DhcpRequest:
     def __str__(self):
         return "DhcpRequest: " + str(self.header)
 
+
 class DhcpAck:
     """
     This class models a DHCP Ack Packet
     """
 
     def __init__(self, header: Header = None):
-        if (header):
+        if header:
             self.header = header
         else:
             self.header: Header = Header()
@@ -386,9 +423,9 @@ class DhcpAck:
         self.header.options[DhcpOptions.DNS] = sIp
 
         self.header.options[DhcpOptions.SUBNET] = Ip.str_to_int(netmask)
-        self.header.options[DhcpOptions.LEASE_TIME] = 86400 # least time
+        self.header.options[DhcpOptions.LEASE_TIME] = 86400  # least time
 
-        self.header.options[DhcpOptions.CAPTIVE_URI] = 'http://' + server_ip
+        self.header.options[DhcpOptions.CAPTIVE_URI] = "http://" + server_ip
 
         return self.pack()
 

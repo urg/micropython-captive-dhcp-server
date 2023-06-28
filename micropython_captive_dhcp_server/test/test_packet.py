@@ -28,37 +28,318 @@ class TestHeader(unittest.TestCase):
         b"\x2b\xff"
     )
     request_android = [
-        0x01, 0x01, 0x06, 0x00, 0xea, 0xbe,
-        0xc3, 0x97, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x8c, 0x45,
-        0x00, 0x1d, 0x48, 0x16, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x63, 0x82, 0x53, 0x63, 0x35, 0x01, 0x03, 0x3d, 0x07, 0x01,
-        0x8c, 0x45, 0x00, 0x1d, 0x48, 0x16, 0x32, 0x04, 0xc0, 0xa8, 0x01, 0xa6,
-        0x36, 0x04, 0xc0, 0xa8, 0x01, 0xfe, 0x39, 0x02, 0x05, 0xdc, 0x3c, 0x0e,
-        0x61, 0x6e, 0x64, 0x72, 0x6f, 0x69, 0x64, 0x2d, 0x64, 0x68, 0x63, 0x70,
-        0x2d, 0x39, 0x0c, 0x09, 0x47, 0x61, 0x6c, 0x61, 0x78, 0x79, 0x2d, 0x53,
-        0x39, 0x37, 0x0a, 0x01, 0x03, 0x06, 0x0f, 0x1a, 0x1c, 0x33, 0x3a, 0x3b,
-        0x2b, 0xff
+        0x01,
+        0x01,
+        0x06,
+        0x00,
+        0xEA,
+        0xBE,
+        0xC3,
+        0x97,
+        0x00,
+        0x01,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x8C,
+        0x45,
+        0x00,
+        0x1D,
+        0x48,
+        0x16,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x63,
+        0x82,
+        0x53,
+        0x63,
+        0x35,
+        0x01,
+        0x03,
+        0x3D,
+        0x07,
+        0x01,
+        0x8C,
+        0x45,
+        0x00,
+        0x1D,
+        0x48,
+        0x16,
+        0x32,
+        0x04,
+        0xC0,
+        0xA8,
+        0x01,
+        0xA6,
+        0x36,
+        0x04,
+        0xC0,
+        0xA8,
+        0x01,
+        0xFE,
+        0x39,
+        0x02,
+        0x05,
+        0xDC,
+        0x3C,
+        0x0E,
+        0x61,
+        0x6E,
+        0x64,
+        0x72,
+        0x6F,
+        0x69,
+        0x64,
+        0x2D,
+        0x64,
+        0x68,
+        0x63,
+        0x70,
+        0x2D,
+        0x39,
+        0x0C,
+        0x09,
+        0x47,
+        0x61,
+        0x6C,
+        0x61,
+        0x78,
+        0x79,
+        0x2D,
+        0x53,
+        0x39,
+        0x37,
+        0x0A,
+        0x01,
+        0x03,
+        0x06,
+        0x0F,
+        0x1A,
+        0x1C,
+        0x33,
+        0x3A,
+        0x3B,
+        0x2B,
+        0xFF,
     ]
     request_android_bytes: bytes = struct.pack(
         ">" + len(request_android) * "B", *request_android
-    )  
+    )
     discover_linux = (
         b"\x01\x01\x06\x00\x2e\xf9"
         b"\x31\x7f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -149,52 +430,64 @@ class TestHeader(unittest.TestCase):
         b"\x36\x04\xc0\xa8\x38\x02\x3a\x04\x00\x00\x54\x60\x3b\x04\x00\x00"
         b"\xa8\xc0\xff"
     ).strip(b"\x00")
-    rouge = b'\x01\x01\x06\x00d\x9b\x03c\x00\x01\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc\xf4\x11g\x8a\xa7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00gwifi_rouge_dhcp_detection\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00c\x82Sc5\x01\x01\xff'
-    
+    rouge = b"\x01\x01\x06\x00d\x9b\x03c\x00\x01\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xcc\xf4\x11g\x8a\xa7\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00gwifi_rouge_dhcp_detection\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00c\x82Sc5\x01\x01\xff"
+
     def test_rouge(self):
         packet = Header.parse(self.rouge)
         print(packet)
 
     def test_header(self):
-
         header = Header()
         header.unpack(self.discover_android)
 
-        #print(header)
+        # print(header)
 
         self.assertEqual(header.op, 1)
         self.assertEqual(header.htype, 1)
         self.assertEqual(header.hlen, 6)
         self.assertEqual(header.hops, 0)
-        self.assertEqual(header.xid, 0xeabec397)
+        self.assertEqual(header.xid, 0xEABEC397)
         self.assertEqual(header.secs, 1)
         self.assertEqual(header.flags, 0)
         self.assertEqual(header.magic, 0x63825363)
-        self.assertEqual(header.options[DhcpOptions.DHCP_MESSAGE_TYPE], DhcpMessageType.DISCOVER)
+        self.assertEqual(
+            header.options[DhcpOptions.DHCP_MESSAGE_TYPE], DhcpMessageType.DISCOVER
+        )
         self.assertEqual(header.options[DhcpOptions.MAX_MESSAGE_SIZE], 1500)
-        self.assertEqual(header.options[DhcpOptions.VENDOR_CLASS_ID], 'android-dhcp-9')
-        self.assertEqual(header.options[DhcpOptions.HOST_NAME], 'Galaxy-S9') 
-        self.assertEqual(header.options[DhcpOptions.PARAM_REQUEST_LIST], '1,3,6,15,26,28,51,58,59,43') 
+        self.assertEqual(header.options[DhcpOptions.VENDOR_CLASS_ID], "android-dhcp-9")
+        self.assertEqual(header.options[DhcpOptions.HOST_NAME], "Galaxy-S9")
+        self.assertEqual(
+            header.options[DhcpOptions.PARAM_REQUEST_LIST], "1,3,6,15,26,28,51,58,59,43"
+        )
 
         self.assertEqual(header.pack(), self.discover_android)
 
     def test_discover(self):
         packet = Header.parse(self.discover_linux)
-        #print(packet)
+        # print(packet)
 
         self.assertEqual(packet.header.op, 1)
         self.assertEqual(packet.header.htype, 1)
         self.assertEqual(packet.header.hlen, 6)
         self.assertEqual(packet.header.hops, 0)
-        self.assertEqual(packet.header.xid, 0x2ef9317f)
+        self.assertEqual(packet.header.xid, 0x2EF9317F)
         self.assertEqual(packet.header.secs, 0)
         self.assertEqual(packet.header.flags, 0)
         self.assertEqual(packet.header.magic, 0x63825363)
 
-        self.assertEqual(packet.header.options[DhcpOptions.DHCP_MESSAGE_TYPE], DhcpMessageType.DISCOVER)
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.REQUESTED_IP]), '192.168.56.3') 
-        self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], 'mario') 
-        self.assertEqual(packet.header.options[DhcpOptions.PARAM_REQUEST_LIST], '1,28,2,3,15,6,119,12,44,47,26,121,42')
+        self.assertEqual(
+            packet.header.options[DhcpOptions.DHCP_MESSAGE_TYPE],
+            DhcpMessageType.DISCOVER,
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.REQUESTED_IP]),
+            "192.168.56.3",
+        )
+        self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], "mario")
+        self.assertEqual(
+            packet.header.options[DhcpOptions.PARAM_REQUEST_LIST],
+            "1,28,2,3,15,6,119,12,44,47,26,121,42",
+        )
 
         self.assertEqual(packet.pack(), self.discover_linux)
 
@@ -206,20 +499,33 @@ class TestHeader(unittest.TestCase):
         self.assertEqual(packet.header.htype, 1)
         self.assertEqual(packet.header.hlen, 6)
         self.assertEqual(packet.header.hops, 0)
-        self.assertEqual(packet.header.xid, 0x2ef9317f)
+        self.assertEqual(packet.header.xid, 0x2EF9317F)
         self.assertEqual(packet.header.secs, 0)
         self.assertEqual(packet.header.flags, 0)
         self.assertEqual(packet.header.magic, 0x63825363)
 
-        self.assertEqual(Ip.int_to_str(packet.header.yiaddr), '192.168.56.3') 
+        self.assertEqual(Ip.int_to_str(packet.header.yiaddr), "192.168.56.3")
 
-        self.assertEqual(packet.header.options[DhcpOptions.DHCP_MESSAGE_TYPE], DhcpMessageType.OFFER)
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.SUBNET]), '255.255.255.0') 
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.ROUTER]), '10.151.1.1') 
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.DNS]), '10.104.1.8') 
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.DHCP_SERVER]), '192.168.56.2') 
-        self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], 'mario.com')
-        self.assertEqual(packet.header.options[DhcpOptions.DOMAIN_NAME], 'sweetwater.com')
+        self.assertEqual(
+            packet.header.options[DhcpOptions.DHCP_MESSAGE_TYPE], DhcpMessageType.OFFER
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.SUBNET]), "255.255.255.0"
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.ROUTER]), "10.151.1.1"
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.DNS]), "10.104.1.8"
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.DHCP_SERVER]),
+            "192.168.56.2",
+        )
+        self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], "mario.com")
+        self.assertEqual(
+            packet.header.options[DhcpOptions.DOMAIN_NAME], "sweetwater.com"
+        )
         self.assertEqual(packet.header.options[DhcpOptions.LEASE_TIME], 86400)
         self.assertEqual(packet.header.options[DhcpOptions.RENEWAL_T1], 21600)
         self.assertEqual(packet.header.options[DhcpOptions.RENEWAL_T2], 43200)
@@ -229,7 +535,7 @@ class TestHeader(unittest.TestCase):
     def test_offer_answer(self):
         discover = Header.parse(self.discover_linux)
         offer = DhcpOffer()
-        offer.answer(discover, '192.168.4.250', '192.168.4.1', '255.255.255.0')
+        offer.answer(discover, "192.168.4.250", "192.168.4.1", "255.255.255.0")
 
         self.assertEqual(offer.header.xid, discover.header.xid)
         self.assertEqual(offer.header.chaddr1, discover.header.chaddr1)
@@ -237,67 +543,101 @@ class TestHeader(unittest.TestCase):
         self.assertEqual(offer.header.chaddr3, discover.header.chaddr3)
         self.assertEqual(offer.header.chaddr4, discover.header.chaddr4)
 
-        self.assertEqual(Ip.int_to_str(offer.header.yiaddr), '192.168.4.250') 
+        self.assertEqual(Ip.int_to_str(offer.header.yiaddr), "192.168.4.250")
 
-        self.assertEqual(Ip.int_to_str(offer.header.options[DhcpOptions.DHCP_SERVER]), '192.168.4.1') 
-        self.assertEqual(Ip.int_to_str(offer.header.options[DhcpOptions.ROUTER]), '192.168.4.1') 
-        self.assertEqual(Ip.int_to_str(offer.header.options[DhcpOptions.DNS]), '192.168.4.1') 
-        self.assertEqual(Ip.int_to_str(offer.header.siaddr), '192.168.4.1') 
+        self.assertEqual(
+            Ip.int_to_str(offer.header.options[DhcpOptions.DHCP_SERVER]), "192.168.4.1"
+        )
+        self.assertEqual(
+            Ip.int_to_str(offer.header.options[DhcpOptions.ROUTER]), "192.168.4.1"
+        )
+        self.assertEqual(
+            Ip.int_to_str(offer.header.options[DhcpOptions.DNS]), "192.168.4.1"
+        )
+        self.assertEqual(Ip.int_to_str(offer.header.siaddr), "192.168.4.1")
 
-        self.assertEqual(Ip.int_to_str(offer.header.options[DhcpOptions.SUBNET]), '255.255.255.0') 
-        self.assertEqual(offer.header.options[DhcpOptions.LEASE_TIME], 86400) 
+        self.assertEqual(
+            Ip.int_to_str(offer.header.options[DhcpOptions.SUBNET]), "255.255.255.0"
+        )
+        self.assertEqual(offer.header.options[DhcpOptions.LEASE_TIME], 86400)
 
     def test_request(self):
         packet = Header.parse(self.request_linux)
-        #print(packet)
+        # print(packet)
 
         self.assertEqual(packet.header.op, 1)
         self.assertEqual(packet.header.htype, 1)
         self.assertEqual(packet.header.hlen, 6)
         self.assertEqual(packet.header.hops, 0)
-        self.assertEqual(packet.header.xid, 0x2ef9317f)
+        self.assertEqual(packet.header.xid, 0x2EF9317F)
         self.assertEqual(packet.header.secs, 0)
         self.assertEqual(packet.header.flags, 0)
         self.assertEqual(packet.header.magic, 0x63825363)
 
-        self.assertEqual(packet.header.options[DhcpOptions.DHCP_MESSAGE_TYPE], DhcpMessageType.REQUEST)
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.REQUESTED_IP]), '192.168.56.3') 
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.DHCP_SERVER]), '192.168.56.2') 
-        self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], 'mario')
-        self.assertEqual(packet.header.options[DhcpOptions.PARAM_REQUEST_LIST], '1,28,2,3,15,6,119,12,44,47,26,121,42')
+        self.assertEqual(
+            packet.header.options[DhcpOptions.DHCP_MESSAGE_TYPE],
+            DhcpMessageType.REQUEST,
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.REQUESTED_IP]),
+            "192.168.56.3",
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.DHCP_SERVER]),
+            "192.168.56.2",
+        )
+        self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], "mario")
+        self.assertEqual(
+            packet.header.options[DhcpOptions.PARAM_REQUEST_LIST],
+            "1,28,2,3,15,6,119,12,44,47,26,121,42",
+        )
 
         self.assertEqual(packet.pack(), self.request_linux)
 
     def test_ack(self):
         packet = Header.parse(self.ack_linux)
-        #print(packet)
+        # print(packet)
 
         self.assertEqual(packet.header.op, 2)
         self.assertEqual(packet.header.htype, 1)
         self.assertEqual(packet.header.hlen, 6)
         self.assertEqual(packet.header.hops, 0)
-        self.assertEqual(packet.header.xid, 0x2ef9317f)
+        self.assertEqual(packet.header.xid, 0x2EF9317F)
         self.assertEqual(packet.header.secs, 0)
         self.assertEqual(packet.header.flags, 0)
         self.assertEqual(packet.header.magic, 0x63825363)
 
-        self.assertEqual(Ip.int_to_str(packet.header.yiaddr), '192.168.56.3') 
+        self.assertEqual(Ip.int_to_str(packet.header.yiaddr), "192.168.56.3")
 
-        self.assertEqual(packet.header.options[DhcpOptions.DHCP_MESSAGE_TYPE], DhcpMessageType.ACK)
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.SUBNET]), '255.255.255.0') 
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.ROUTER]), '10.151.1.1') 
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.DNS]), '10.104.1.8') 
-        self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], 'mario.com')
-        self.assertEqual(packet.header.options[DhcpOptions.DOMAIN_NAME], 'sweetwater.com')
+        self.assertEqual(
+            packet.header.options[DhcpOptions.DHCP_MESSAGE_TYPE], DhcpMessageType.ACK
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.SUBNET]), "255.255.255.0"
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.ROUTER]), "10.151.1.1"
+        )
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.DNS]), "10.104.1.8"
+        )
+        self.assertEqual(packet.header.options[DhcpOptions.HOST_NAME], "mario.com")
+        self.assertEqual(
+            packet.header.options[DhcpOptions.DOMAIN_NAME], "sweetwater.com"
+        )
         self.assertEqual(packet.header.options[DhcpOptions.LEASE_TIME], 86400)
-        self.assertEqual(Ip.int_to_str(packet.header.options[DhcpOptions.DHCP_SERVER]), '192.168.56.2') 
+        self.assertEqual(
+            Ip.int_to_str(packet.header.options[DhcpOptions.DHCP_SERVER]),
+            "192.168.56.2",
+        )
         self.assertEqual(packet.header.options[DhcpOptions.RENEWAL_T1], 21600)
         self.assertEqual(packet.header.options[DhcpOptions.RENEWAL_T2], 43200)
 
         self.assertEqual(packet.pack(), self.ack_linux)
 
     def test_ip(self):
-        self.assertEqual('192.168.1.5', Ip.next_ip('192.168.1.4'))
+        self.assertEqual("192.168.1.5", Ip.next_ip("192.168.1.4"))
+
 
 if __name__ == "__main__":
     unittest.main()
