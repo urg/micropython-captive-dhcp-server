@@ -10,7 +10,7 @@ try:
         DhcpAck,
         Ip,
     )
-except:
+except Exception:
     from packet import Header, DhcpDiscover, DhcpRequest, DhcpOffer, DhcpAck, Ip
 import gc
 import time
@@ -40,8 +40,7 @@ class CaptiveDhcpServer:
         broadcast_addr = socket.getaddrinfo(
             "255.255.255.255", 68, socket.AF_INET, socket.SOCK_DGRAM
         )[0][4]
-        print(f"Broadcasting Response ")
-        print(reply)
+        print(f"Broadcasting Response: {reply}")
         udpb.sendto(reply, broadcast_addr)
         udpb.close()
 
@@ -97,7 +96,7 @@ class CaptiveDhcpServer:
             except OSError:
                 await asyncio.sleep_ms(500)
 
-            except Exception as ex:
+            except Exception:
                 traceback.print_exc()
                 await asyncio.sleep_ms(500)
 

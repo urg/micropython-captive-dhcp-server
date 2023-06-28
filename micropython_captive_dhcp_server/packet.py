@@ -165,14 +165,10 @@ class Header:
             elif option_code in [DhcpOptions.PARAM_REQUEST_LIST]:
                 option_value = ""
                 for i in range(option_len):
-                    option_value += (
-                        str(
-                            int.from_bytes(
-                                data[position + i : position + i + 1], self.BYTE_ORDER
-                            )
-                        )
-                        + ","
+                    param = int.from_bytes(
+                        data[position + i : position + i + 1], self.BYTE_ORDER
                     )
+                    option_value += str(param) + ","
                 option_value = option_value[:-1]
             else:
                 option_value = int.from_bytes(
@@ -233,7 +229,7 @@ class Header:
             else:
                 try:
                     octet_size = (int(option_value).bit_length() + 7) // 8
-                except:
+                except Exception:
                     # AttributeError: 'int' object has no attribute 'bit_length'
                     octet_size = 1
 
