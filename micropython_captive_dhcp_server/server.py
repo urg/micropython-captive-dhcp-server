@@ -1,6 +1,9 @@
 import usocket as socket
 import uasyncio as asyncio
-from packet import Header, DhcpDiscover, DhcpRequest, DhcpOffer, DhcpAck, Ip
+try:
+  from micropython_captive_dhcp_server.packet import Header, DhcpDiscover, DhcpRequest, DhcpOffer, DhcpAck, Ip
+except:
+  from packet import Header, DhcpDiscover, DhcpRequest, DhcpOffer, DhcpAck, Ip
 import gc
 import time
 import traceback
