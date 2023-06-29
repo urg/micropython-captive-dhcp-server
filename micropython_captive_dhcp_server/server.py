@@ -14,7 +14,6 @@ except Exception:
     from packet import Header, DhcpDiscover, DhcpRequest, DhcpOffer, DhcpAck, Ip
 import gc
 import time
-import traceback
 
 
 class CaptiveDhcpServer:
@@ -97,7 +96,6 @@ class CaptiveDhcpServer:
                 await asyncio.sleep_ms(500)
 
             except Exception:
-                traceback.print_exc()
                 await asyncio.sleep_ms(500)
 
         udps.close()
