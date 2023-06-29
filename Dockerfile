@@ -2,7 +2,6 @@ FROM micropython/unix:v1.18
 
 RUN /usr/local/bin/micropython-dev -m upip install uasyncio
 RUN /usr/local/bin/micropython-dev -m upip install unittest
-RUN /usr/local/bin/micropython-dev -m upip install traceback
 
 WORKDIR /code
 
