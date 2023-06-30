@@ -44,22 +44,23 @@ class CaptiveDhcpServer:
         udpb.close()
 
     async def run(self, server_ip: str, netmask: str):
-        try:
-            udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        udps.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        udps.setblocking(False)
 
-            # set non-blocking otherwise execution will stop at 'recvfrom'
-            # until a connection is received and this will prevent the other
-            # async threads from running
-            udps.setblocking(False)
-
-            addr = socket.getaddrinfo("0.0.0.0", 67, socket.AF_INET, socket.SOCK_DGRAM)[
-                0
-            ][4]
-            udps.bind(addr)
-            print("Starting server on port 67")
-        except Exception:
-            print("Failed to bind to port")
-            return
+        bound = False
+        while not bound:
+            try:
+                gc.collect()
+                addr = socket.getaddrinfo(
+                    "0.0.0.0", 67, socket.AF_INET, socket.SOCK_DGRAM
+                )[0][4]
+                udps.bind(addr)
+                print("Starting server on port 67")
+                bound = True
+            except Exception as e:
+                print(f"Failed to bind to port {e}")
+                time.sleep(0.5)
 
         while True:
             try:
@@ -99,11 +100,3 @@ class CaptiveDhcpServer:
                 await asyncio.sleep_ms(500)
 
         udps.close()
-
-
-if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    server = CaptiveDhcpServer()
-    loop.create_task(server.run("192.168.4.1", "255.255.255.0"))
-    loop.run_forever()
-    loop.close()
