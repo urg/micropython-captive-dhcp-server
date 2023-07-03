@@ -215,6 +215,10 @@ class Header:
                 for param_request in param_request_list:
                     packet += int.to_bytes(int(param_request), 1, self.BYTE_ORDER)
             elif option_code in [
+                DhcpOptions.ROUTER,
+                DhcpOptions.DHCP_SERVER,
+                DhcpOptions.DNS,
+                DhcpOptions.SUBNET,
                 DhcpOptions.LEASE_TIME,
                 DhcpOptions.RENEWAL_T1,
                 DhcpOptions.RENEWAL_T2,
