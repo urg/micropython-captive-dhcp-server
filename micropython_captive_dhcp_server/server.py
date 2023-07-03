@@ -39,7 +39,7 @@ class CaptiveDhcpServer:
         # see: https://github.com/micropython/micropython/issues/8729
         # udpb.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         udpb.setsockopt(socket.SOL_SOCKET, 0x20, 1)
-        
+
         udpb.setblocking(False)
         broadcast_addr = socket.getaddrinfo(
             "255.255.255.255", 68, socket.AF_INET, socket.SOCK_DGRAM
@@ -49,7 +49,6 @@ class CaptiveDhcpServer:
         udpb.close()
 
     async def run(self, server_ip: str, netmask: str):
-
         udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         udps.setblocking(False)
         udps.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
