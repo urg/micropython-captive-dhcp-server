@@ -36,7 +36,8 @@ class CaptiveDhcpServer:
         try:
             udpb.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-            # As of micropython 1.20.0, SO_BROADCAST is not defined. Using defined value of 0x20
+            # As of micropython 1.20.0, SO_BROADCAST is not defined.
+            # Using defined value of 0x20
             # see: https://github.com/micropython/micropython/issues/8729
             # udpb.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
             udpb.setsockopt(socket.SOL_SOCKET, 0x20, 1)
