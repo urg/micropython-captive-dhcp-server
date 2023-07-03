@@ -33,20 +33,24 @@ class CaptiveDhcpServer:
 
     def send_broadcast_reply(self, reply):
         udpb = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        udpb.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            udpb.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        # As of micropython 1.20.0, SO_BROADCAST is not defined. Using defined value of 0x20
-        # see: https://github.com/micropython/micropython/issues/8729
-        # udpb.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        udpb.setsockopt(socket.SOL_SOCKET, 0x20, 1)
+            # As of micropython 1.20.0, SO_BROADCAST is not defined. Using defined value of 0x20
+            # see: https://github.com/micropython/micropython/issues/8729
+            # udpb.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+            udpb.setsockopt(socket.SOL_SOCKET, 0x20, 1)
 
-        udpb.setblocking(False)
-        broadcast_addr = socket.getaddrinfo(
-            "255.255.255.255", 68, socket.AF_INET, socket.SOCK_DGRAM
-        )[0][-1]
-        print(f"Broadcasting Response: {reply}")
-        udpb.sendto(reply, broadcast_addr)
-        udpb.close()
+            udpb.setblocking(False)
+            broadcast_addr = socket.getaddrinfo(
+                "255.255.255.255", 68, socket.AF_INET, socket.SOCK_DGRAM
+            )[0][4]
+            print(f"Broadcasting Response: {reply}")
+            udpb.sendto(reply, broadcast_addr)
+        except Exception as e:
+            print(f"Failed to broadcast reply {e}")
+        finally:
+            udpb.close()
 
     async def run(self, server_ip: str, netmask: str):
         udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -101,7 +105,8 @@ class CaptiveDhcpServer:
             except OSError:
                 await asyncio.sleep_ms(500)
 
-            except Exception:
+            except Exception as e:
+                print(f"Exception {e}")
                 await asyncio.sleep_ms(500)
 
         udps.close()
